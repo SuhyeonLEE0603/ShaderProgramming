@@ -1,6 +1,7 @@
 #version 330
 
 in vec3 a_Position;
+// 매 프레임 const형으로 set 할 수 있음
 uniform vec4 u_Trans;
 
 void main()
