@@ -51,11 +51,14 @@ void Renderer::CreateVertexBufferObjects()
 	float vertices[] = { 
 		0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f
+		1.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f
 	};
 
-	glGenBuffers(1, &m_TestVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_TestVBO);
+	glGenBuffers(1, &m_ParticleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
@@ -226,14 +229,17 @@ void Renderer::DrawParticle()
 	int attribPosition = glGetAttribLocation(shader, "a_Position");
 	glEnableVertexAttribArray(attribPosition);
 	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
-	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(attribPosition), 0);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(attribPosition) * 3, 0);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	float size = 0.05;
+	float size = 0.1;
 	float paticleVerts[] = {
 		-size, -size, 0,
 		size, size, 0,
-		-size, size, 0
+		-size, size, 0,
+		-size, -size, 0,
+		size, -size, 0,
+		size, size, 0
 	};
 
 	glGenBuffers(1, &m_ParticleVBO);
