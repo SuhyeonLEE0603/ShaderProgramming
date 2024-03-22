@@ -19,6 +19,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
+	m_ParticleShader = CompileShaders("./Shaders/Particle.vs", "./Shaders/Particle.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -46,6 +47,16 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_VBORect);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBORect);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rect), rect, GL_STATIC_DRAW);
+
+	float vertices[] = { 
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f
+	};
+
+	glGenBuffers(1, &m_TestVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TestVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
 void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -153,7 +164,7 @@ GLuint Renderer::CompileShaders(char* filenameVS, char* filenameFS)
 	}
 
 	glUseProgram(ShaderProgram);
-	std::cout << filenameVS << ", " << filenameFS << " Shader compiling is done.";
+	std::cout << filenameVS << ", " << filenameFS << " Shader compiling is done." << std::endl;
 
 	return ShaderProgram;
 }
@@ -180,6 +191,55 @@ void Renderer::DrawSolidRect(float x, float y, float z, float size, float r, flo
 	glDisableVertexAttribArray(attribPosition);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Renderer::DrawTest()
+{
+	//Program select
+	glUseProgram(m_SolidRectShader);
+
+	int attribPosition = glGetAttribLocation(m_SolidRectShader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TestVBO);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glDisableVertexAttribArray(attribPosition);
+}
+
+void Renderer::DrawParticle()
+{
+	// Program select
+	GLuint shader = m_ParticleShader;
+	glUseProgram(shader);
+
+	m_ParticleTime += 0.1;
+
+	int ulTime = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(ulTime, m_ParticleTime);
+
+	if (m_ParticleTime > 200.f) {
+		m_ParticleTime = 0;
+	}
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(attribPosition), 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	float size = 0.05;
+	float paticleVerts[] = {
+		-size, -size, 0,
+		size, size, 0,
+		-size, size, 0
+	};
+
+	glGenBuffers(1, &m_ParticleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(paticleVerts), paticleVerts, GL_STATIC_DRAW);
+
 }
 
 void Renderer::GetGLPosition(float x, float y, float *newX, float *newY)
