@@ -23,6 +23,8 @@ void Line()
 void Circle()
 {
 	float newTime = fract(u_Time/ u_Period) * c_Pi * 2.0;
+	// 반시계 방향
+	//float newTime = -fract(u_Time/ u_Period) * c_Pi * 2.0;
 	vec2 trans = vec2(cos(newTime), sin(newTime));
 	vec4 newPosition;
 	newPosition.xy = a_Position.xy + trans;
