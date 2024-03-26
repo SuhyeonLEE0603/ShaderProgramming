@@ -241,7 +241,7 @@ void Renderer::DrawParticle()
 	glUniform1f(ulTime, m_ParticleTime);
 	m_ParticleTime += 0.016;
 	int ulPeriod = glGetUniformLocation(shader, "u_Period");
-	glUniform1f(ulPeriod, 1.0);
+	glUniform1f(ulPeriod, 2.0);
 	
 	int attribPosition = glGetAttribLocation(shader, "a_Position");
 	glEnableVertexAttribArray(attribPosition);
