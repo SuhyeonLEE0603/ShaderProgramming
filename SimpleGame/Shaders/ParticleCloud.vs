@@ -1,6 +1,9 @@
 #version 330
 
 in vec3 a_Position;
+in vec3 a_Velocity;
+in float a_StartTime;
+in float a_LifeTime;
 
 uniform float u_Time = 0;
 uniform float u_Period = 2.0;
@@ -14,6 +17,24 @@ const float c_Pi = 3.141592;
 void Basic()
 {
 	vec4 newPosition = vec4(a_Position, 1);
+	gl_Position = newPosition;
+}
+
+void Velocity()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	float t = u_Time - a_StartTime;
+
+	if(t > 0)
+	{
+		t = a_LifeTime * fract(t / a_LifeTime);
+		newPosition.xy = newPosition.xy + a_Velocity.xy * t;			
+	}
+	else
+	{
+		newPosition.x = 1000000;
+	}
+
 	gl_Position = newPosition;
 }
 
@@ -62,5 +83,6 @@ void main()
 	//Line();
 	//Circle();
 	//Parabola();
-	Basic();
+	//Basic();
+	Velocity();
 }
