@@ -19,6 +19,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 	m_ParticleShader = CompileShaders("./Shaders/Particle.vs", "./Shaders/Particle.fs");
+	m_ParticleCloudShader = CompileShaders("./Shaders/ParticleCloud.vs", "./Shaders/ParticleCloud.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -306,7 +307,7 @@ void Renderer::DrawParticle()
 void Renderer::DrawParticleCloud()
 {
 	// Program select
-	GLuint shader = m_ParticleShader;
+	GLuint shader = m_ParticleCloudShader;
 	glUseProgram(shader);
 
 	int ulTime = glGetUniformLocation(shader, "u_Time");
