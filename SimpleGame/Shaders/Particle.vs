@@ -11,6 +11,12 @@ const vec3 c_ParaVelocity = vec3(2.0, 2.0, 0);
 const vec2 c_2DGravity = vec2(0.0, -4.9);
 const float c_Pi = 3.141592;
 
+void Basic()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	gl_Position = newPosition;
+}
+
 void Line()
 {
 	float newTime = abs(fract(u_Time/u_Period) - 0.5) * 2.0;
@@ -53,7 +59,8 @@ void Parabola()
 
 void main()
 {
-	//Line();
+	Line();
 	//Circle();
-	Parabola();
+	//Parabola();
+	//Basic();
 }
