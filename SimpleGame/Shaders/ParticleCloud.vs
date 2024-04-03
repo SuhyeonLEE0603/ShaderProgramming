@@ -78,11 +78,31 @@ void Parabola()
 	gl_Position = newPosition;
 }
 
+void SinShape()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	float t = u_Time - a_StartTime;
+
+	if(t > 0)
+	{
+		t = a_LifeTime * fract(t / a_LifeTime);
+		newPosition.x = newPosition.x + a_Velocity.x * t;			
+		newPosition.y = newPosition.y + sin((newPosition.x + 1) * c_Pi);
+	}
+	else
+	{
+		newPosition.x = 1000000;
+	}
+
+	gl_Position = newPosition;
+}
+
 void main()
 {
 	//Line();
 	//Circle();
 	//Parabola();
 	//Basic();
-	Velocity();
+	//Velocity();
+	SinShape;
 }

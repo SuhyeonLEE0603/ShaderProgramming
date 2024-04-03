@@ -25,7 +25,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	CreateVertexBufferObjects();
 
 	// Create Particle Cloud
-	CreateParticleCloud(1000);
+	CreateParticleCloud(1);
 
 	if (m_SolidRectShader > 0 && m_VBORect > 0)
 	{
@@ -241,13 +241,18 @@ void Renderer::CreateParticleCloud(int numParticles)
 
 	int index = 0;
 	for (int i = 0; i < particleCount; i++) {
-		centerX = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
-		centerY = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
-		vx = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
-		vy = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
-		vz = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
-		startTime = 8.f * ((float)rand() / (float)RAND_MAX);
-		lifeTime = 8.f * ((float)rand() / (float)RAND_MAX) + 1.f;
+		//centerX = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
+		//centerY = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
+		centerX = -1.f;
+		centerY = 0.f;
+		//vx = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
+		//vy = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
+		//vz = ((float)rand() / (float)RAND_MAX * 2.f - 1.f);
+		vx = 1.f;
+		vy = 0.f;
+		vz = 0.f;
+		startTime = 0.f; /* 8.f * ((float)rand() / (float)RAND_MAX);*/
+		lifeTime = 2.f; /*8.f * ((float)rand() / (float)RAND_MAX) + 1.f;*/
 
 		vertices[index] = centerX - size; index++;
 		vertices[index] = centerY - size; index++;
