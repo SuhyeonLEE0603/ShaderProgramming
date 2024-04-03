@@ -358,7 +358,7 @@ void Renderer::DrawParticleCloud()
 
 	int ulTime = glGetUniformLocation(shader, "u_Time");
 	glUniform1f(ulTime, m_ParticleTime);
-	m_ParticleTime += 0.0005;
+	m_ParticleTime += 0.016;
 	int ulPeriod = glGetUniformLocation(shader, "u_Period");
 	glUniform1f(ulPeriod, 5.0);
 	
