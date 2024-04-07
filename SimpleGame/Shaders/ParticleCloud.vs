@@ -4,7 +4,8 @@ in vec3 a_Position;
 in vec3 a_Velocity;
 in float a_StartTime;
 in float a_LifeTime;
-
+in float a_Amp;
+in float a_Period;
 uniform float u_Time = 0;
 uniform float u_Period = 2.0;
 
@@ -82,12 +83,14 @@ void SinShape()
 {
 	vec4 newPosition = vec4(a_Position, 1);
 	float t = u_Time - a_StartTime;
+	float amp = a_Amp;
+	float period = a_Period;
 
 	if(t > 0)
 	{
 		t = a_LifeTime * fract(t / a_LifeTime);
 		newPosition.x = newPosition.x + a_Velocity.x * t;			
-		newPosition.y = newPosition.y + sin((newPosition.x + 1) * c_Pi);
+		newPosition.y = newPosition.y + t * 0.2 * amp * sin(t * c_Pi * period);
 	}
 	else
 	{
@@ -104,5 +107,5 @@ void main()
 	//Parabola();
 	//Basic();
 	//Velocity();
-	SinShape;
+	SinShape();
 }
