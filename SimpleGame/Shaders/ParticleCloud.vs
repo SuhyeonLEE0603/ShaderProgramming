@@ -35,9 +35,8 @@ void Velocity()
 		t = a_LifeTime * fract(t / a_LifeTime);
 		float attractValue = fract(t / a_LifeTime);
 		float tt = t * t;
-		vec2 trans = a_Velocity.xy * t + 0.5 * (c_2DGravity + u_Acc) * tt;
-		trans = mix(vec2(newPosition.xy), u_AttractPos, attractValue);
-		newPosition.xy = newPosition.xy + trans;
+		newPosition.xy = newPosition.xy + a_Velocity.xy * t + 0.5 * (c_2DGravity + u_Acc) * tt;
+		newPosition.xy = mix(vec2(newPosition.xy), u_AttractPos, attractValue);
 	}
 	else
 	{
