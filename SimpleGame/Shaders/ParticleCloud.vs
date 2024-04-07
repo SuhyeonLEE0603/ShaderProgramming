@@ -10,6 +10,8 @@ in float a_Value;
 
 uniform float u_Time = 0;
 uniform float u_Period = 2.0;
+uniform vec2 u_Acc = vec2(0, 0);
+uniform vec2 u_AttractPos = vec2(0, 0);
 
 const vec3 c_StartPos = vec3(-1, 0, 0);
 const vec3 c_Velocity = vec3(2.0, 0, 0);
@@ -31,7 +33,10 @@ void Velocity()
 	if(t > 0)
 	{
 		t = a_LifeTime * fract(t / a_LifeTime);
-		newPosition.xy = newPosition.xy + a_Velocity.xy * t;			
+		float attractValue = fract(t / a_LifeTime);
+		float tt = t * t;
+		newPosition.xy = newPosition.xy + a_Velocity.xy * t + 0.5 * (c_2DGravity + u_Acc) * tt;		
+		newPosition.xy = mix(vec2(newPosition.xy), u_AttractPos, attractValue);
 	}
 	else
 	{
@@ -111,12 +116,45 @@ void SinShape()
 	gl_Position = newPosition;
 }
 
+void SinShapeCycle()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	float t = u_Time - a_StartTime;
+	float amp = a_Amp;
+	float period = a_Period;
+
+	if(t > 0)
+	{
+		t = a_LifeTime * fract(t / a_LifeTime);
+		float tt = t * t;
+		float value = a_StartTime * 2.0 * c_Pi;
+		float x = cos(value);
+		float y = sin(value);
+		newPosition.xy = newPosition.xy + vec2(x, y);
+
+		vec2 newVel = a_Velocity.xy + c_2DGravity * t;
+		vec2 newDir = vec2(-a_Velocity.y, a_Velocity.x);
+		newDir = normalize(newDir);
+		newPosition.xy = newPosition.xy + a_Velocity.xy * t + 0.5 * c_2DGravity * tt;			
+		newPosition.xy = newPosition.xy + newDir * t * 0.1 * amp * sin(t * c_Pi * period);
+	}
+	else
+	{
+		newPosition.x = 1000000;
+	}
+
+	gl_Position = newPosition;
+}
+
 void main()
 {
 	//Line();
 	//Circle();
 	//Parabola();
 	//Basic();
-	//Velocity();
-	SinShape();
+	//SinShape();
+	Velocity();
+
+	//SinShapeCycle();
+
 }
