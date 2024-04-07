@@ -396,7 +396,7 @@ void Renderer::DrawParticleCloud()
 	int ulPeriod = glGetUniformLocation(shader, "u_Period");
 	glUniform1f(ulPeriod, 2.0);
 	int ulAcc = glGetUniformLocation(shader, "u_Acc");
-	glUniform2f(ulAcc, sin(m_ParticleTime), 0.0);
+	glUniform2f(ulAcc, 0.0, 0.0);
 	
 	int attribPosition = glGetAttribLocation(shader, "a_Position");
 	glEnableVertexAttribArray(attribPosition);
