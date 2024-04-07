@@ -86,7 +86,7 @@ void Parabola()
 	gl_Position = newPosition;
 }
 
-void SinShape()
+void CircleShape()
 {
 	vec4 newPosition = vec4(a_Position, 1);
 	float t = u_Time - a_StartTime;
@@ -116,7 +116,7 @@ void SinShape()
 	gl_Position = newPosition;
 }
 
-void SinShapeCycle()
+void CircleShapeCycle()
 {
 	vec4 newPosition = vec4(a_Position, 1);
 	float t = u_Time - a_StartTime;
@@ -146,15 +146,46 @@ void SinShapeCycle()
 	gl_Position = newPosition;
 }
 
+void HeartShapeCycle()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	float t = u_Time - a_StartTime;
+	float amp = a_Amp;
+	float period = a_Period;
+
+	if(t > 0)
+	{
+		t = a_LifeTime * fract(t / a_LifeTime);
+		float tt = t * t;
+		float value = a_StartTime * 2.0 * c_Pi;
+		float x = 16 * pow(sin(value), 3);
+		float y = 13 * cos(value) - 5 * cos(2 * value) - 2 * cos(3 * value) - cos(4 * value);
+		x *= 0.07;
+		y *= 0.07;
+		newPosition.xy = newPosition.xy + vec2(x, y);
+
+		vec2 newVel = a_Velocity.xy + c_2DGravity * t;
+		vec2 newDir = vec2(-a_Velocity.y, a_Velocity.x);
+		newDir = normalize(newDir);
+		newPosition.xy = newPosition.xy + a_Velocity.xy * t + 0.5 * c_2DGravity * tt;			
+		newPosition.xy = newPosition.xy + newDir * t * 0.1 * amp * sin(t * c_Pi * period);
+	}
+	else
+	{
+		newPosition.x = 1000000;
+	}
+
+	gl_Position = newPosition;
+}
+
 void main()
 {
 	//Line();
 	//Circle();
 	//Parabola();
 	//Basic();
-	//SinShape();
-	Velocity();
-
-	//SinShapeCycle();
-
+	//CircleShape();
+	//Velocity();
+	//CircleShapeCycle();
+	HeartShapeCycle();
 }

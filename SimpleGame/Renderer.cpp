@@ -245,10 +245,10 @@ void Renderer::CreateParticleCloud(int numParticles)
 	for (int i = 0; i < particleCount; i++) {
 		float velocityScale = 0.2f;
 
-		centerX = ((float)rand() / (float)RAND_MAX) * 2.f - 1.f;
-		centerY = ((float)rand() / (float)RAND_MAX) * 2.f - 1.f;
-		//centerX = 0.f;
-		//centerY = 0.f;
+		//centerX = ((float)rand() / (float)RAND_MAX) * 2.f - 1.f;
+		//centerY = ((float)rand() / (float)RAND_MAX) * 2.f - 1.f;
+		centerX = 0.f;
+		centerY = 0.f;
 		
 		vx = 0.f; //(((float)rand() / (float)RAND_MAX) * 2.f - 1.f) * velocityScale;
 		vy = -0.01f; //(((float)rand() / (float)RAND_MAX) * 2.f - 1.f) * velocityScale;
