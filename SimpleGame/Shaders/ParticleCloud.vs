@@ -7,6 +7,9 @@ in float a_LifeTime;
 in float a_Amp;
 in float a_Period;
 in float a_Value;
+in vec4 a_Color;
+
+out vec4 v_Color;
 
 uniform float u_Time = 0;
 uniform float u_Period = 2.0;
@@ -23,6 +26,8 @@ void Basic()
 {
 	vec4 newPosition = vec4(a_Position, 1);
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void Velocity()
@@ -44,6 +49,8 @@ void Velocity()
 	}
 
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void Line()
@@ -55,6 +62,8 @@ void Line()
 	c_Velocity * newTime;
 	newPosition.w = 1;
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void Circle()
@@ -67,6 +76,8 @@ void Circle()
 	newPosition.xy = a_Position.xy + trans;
 	newPosition.zw = vec2(0, 1);
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void Parabola()
@@ -84,6 +95,8 @@ void Parabola()
 	newPosition.xy = vec2(transX, transY);
 	newPosition.zw = vec2(0, 1);
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void CircleShape()
@@ -114,6 +127,8 @@ void CircleShape()
 	}
 
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void CircleShapeCycle()
@@ -144,6 +159,8 @@ void CircleShapeCycle()
 	}
 
 	gl_Position = newPosition;
+	v_Color = a_Color;
+
 }
 
 void HeartShapeCycle()
@@ -156,12 +173,13 @@ void HeartShapeCycle()
 	if(t > 0)
 	{
 		t = a_LifeTime * fract(t / a_LifeTime);
+		float particleAlpha = 1 - t / a_LifeTime;
 		float tt = t * t;
 		float value = a_StartTime * 2.0 * c_Pi;
 		float x = 16 * pow(sin(value), 3);
 		float y = 13 * cos(value) - 5 * cos(2 * value) - 2 * cos(3 * value) - cos(4 * value);
-		x *= 0.07;
-		y *= 0.07;
+		x *= 0.05;
+		y *= 0.05;
 		newPosition.xy = newPosition.xy + vec2(x, y);
 
 		vec2 newVel = a_Velocity.xy + c_2DGravity * t;
@@ -169,13 +187,17 @@ void HeartShapeCycle()
 		newDir = normalize(newDir);
 		newPosition.xy = newPosition.xy + a_Velocity.xy * t + 0.5 * c_2DGravity * tt;			
 		newPosition.xy = newPosition.xy + newDir * t * 0.1 * amp * sin(t * c_Pi * period);
+		v_Color = vec4(a_Color.agb, particleAlpha);
 	}
 	else
 	{
 		newPosition.x = 1000000;
+		v_Color = a_Color;
+
 	}
 
 	gl_Position = newPosition;
+
 }
 
 void main()
@@ -188,4 +210,5 @@ void main()
 	//Velocity();
 	//CircleShapeCycle();
 	HeartShapeCycle();
+
 }
