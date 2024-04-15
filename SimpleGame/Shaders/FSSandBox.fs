@@ -5,7 +5,7 @@ layout(location=0) out vec4 FragColor;
 
 in vec4 v_Color;
 
-void main()
+void FilledCircle()
 {
 	vec4 newColor = vec4(1, 1, 1, 1);
 	float r = 0.5f;
@@ -21,5 +21,27 @@ void main()
 		
 	}
 	FragColor = newColor;
+}
 
+void Circle()
+{
+	vec4 newColor = vec4(1, 1, 1, 1);
+	float r = 0.5;
+	float width = 0.05;
+	vec2 center = vec2(0.5, 0.5);
+	float dist = distance(v_Color.rg, center);
+
+	if(dist > r - width && dist < r)
+	{
+		newColor = vec4(1, 1, 1, 1);
+	}
+	else
+	{
+		newColor = vec4(0, 0, 0, 0);
+	}
+	FragColor = newColor;
+}
+void main()
+{
+	Circle();
 }
