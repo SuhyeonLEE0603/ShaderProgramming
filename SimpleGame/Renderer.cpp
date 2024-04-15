@@ -20,6 +20,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 	m_ParticleShader = CompileShaders("./Shaders/Particle.vs", "./Shaders/Particle.fs");
 	m_ParticleCloudShader = CompileShaders("./Shaders/ParticleCloud.vs", "./Shaders/ParticleCloud.fs");
+	m_FSSandboxShader = CompileShaders("./Shaders/FSSandBox.vs", "./Shaders/FSSandBox.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -65,6 +66,7 @@ void Renderer::CreateVertexBufferObjects()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	float size = 0.05;
+
 	float paticleVerts[] = {
 		-size, -size, 0,
 		size, size, 0,
@@ -77,6 +79,21 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_ParticleVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(paticleVerts), paticleVerts, GL_STATIC_DRAW);
+
+	size = 0.5;
+
+	float FSSandboxVerts[] = {
+		-size, -size, 0,
+		size, size, 0,
+		-size, size, 0,
+		-size, -size, 0,
+		size, -size, 0,
+		size, size, 0
+	};
+
+	glGenBuffers(1, &m_FSSandboxVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_FSSandboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(FSSandboxVerts), FSSandboxVerts, GL_STATIC_DRAW);
 
 }
 
@@ -487,6 +504,34 @@ void Renderer::DrawParticleCloud()
 		stride, (GLvoid*)(sizeof(float) * 11));
 
 	glDrawArrays(GL_TRIANGLES, 0, m_ParticleCloudVertexCount);
+
+	glDisableVertexAttribArray(attribPosition);
+	glDisable(GL_BLEND);
+
+}
+
+void Renderer::DrawFSSandbox()
+{
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// Program select
+	GLuint shader = m_FSSandboxShader;
+	glUseProgram(shader);
+	GLuint stride = sizeof(float) * 3;
+
+	int ulTime = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(ulTime, m_FSSandboxTime);
+	m_FSSandboxTime += 0.016;
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_FSSandboxVBO);
+	glVertexAttribPointer(attribPosition,
+		3, GL_FLOAT, GL_FALSE,
+		stride, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glDisableVertexAttribArray(attribPosition);
 	glDisable(GL_BLEND);
