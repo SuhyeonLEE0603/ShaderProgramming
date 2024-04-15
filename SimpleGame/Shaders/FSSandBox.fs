@@ -3,6 +3,8 @@
 // location=0 : 0번 인덱스(프레임 버퍼)에 바인딩 되어 있는 버퍼를 출력하라
 layout(location=0) out vec4 FragColor;
 
+uniform float u_Time;
+
 in vec4 v_Color;
 
 const float c_Pi = 3.14;
@@ -49,7 +51,7 @@ void Circles()
 	float circleCount = 10; // 0 ~ 1
 	vec2 circleCenter = vec2(0.5, 0.5);
 	float dist = distance(v_Color.rg, circleCenter);
-	float input = circleCount * c_Pi * 4 * dist;
+	float input = circleCount * c_Pi * 4 * dist + u_Time * 20;
 	float sinValue = pow(sin(input), 16);
 	FragColor = vec4(sinValue);
 }

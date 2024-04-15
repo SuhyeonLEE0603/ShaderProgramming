@@ -43,11 +43,10 @@ private:
 	GLuint m_ParticleVBO = 0;
 	GLuint m_ParticleCloudVBO = 0;
 	GLuint m_ParticleCloudVertexCount = 0;
-
 	float m_ParticleTime = 0;
 
 	GLuint m_FSSandboxShader = 0;
 	GLuint m_FSSandboxVBO = 0;               
-	GLuint m_FSSandboxTime = 0;
+	float m_FSSandboxTime = 0;
 };
 
