@@ -46,12 +46,11 @@ void Circle()
 
 void Circles()
 {
-	float circleCount = 1; // 0 ~ 1
+	float circleCount = 10; // 0 ~ 1
 	vec2 circleCenter = vec2(0.5, 0.5);
-	float maxDist = 0.5;
 	float dist = distance(v_Color.rg, circleCenter);
-	float input = c_Pi * 0.5 * dist / maxDist;
-	float sinValue = sin(input);
+	float input = circleCount * c_Pi * 4 * dist;
+	float sinValue = pow(sin(input), 16);
 	FragColor = vec4(sinValue);
 }
 void main()
