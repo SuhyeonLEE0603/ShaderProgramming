@@ -46,6 +46,7 @@ void Circle()
 	FragColor = newColor;
 }
 
+// 시험문제 : 물방울이 떨이지는 효과 -> 시작시간을 다르게 하고 퍼져있음
 void Circles()
 {
 	float circleCount = 10; // 0 ~ 1
