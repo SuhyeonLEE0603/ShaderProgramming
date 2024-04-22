@@ -60,7 +60,7 @@ void Circles()
 void SinGraph()
 {
 	vec2 newTexPos = vec2(v_Color.r * 2 * c_Pi, v_Color.g * 2 - 1);
-	float period = 1;
+	float period = 2;
 	float amp = 0.2;
 	float speed = 10;
 	// float sinValue = amp * sin(newTexPos.x * period - u_Time) - amp * sin(- u_Time);
@@ -68,7 +68,7 @@ void SinGraph()
 	float width = 0.5;
 	if(sinValue < newTexPos.y + width && sinValue > newTexPos.y - width)
 	{
-		FragColor = vec4(1);
+		FragColor = vec4((sinValue + 1) / 2);
 	}
 	else
 	{
