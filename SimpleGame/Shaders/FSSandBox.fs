@@ -73,7 +73,9 @@ void SinGraph()
 	}
 	else
 	{
-		FragColor = vec4(0);
+		// Ãâ·ÂX
+		discard;
+		//FragColor = vec4(0);
 	}
 
 }
