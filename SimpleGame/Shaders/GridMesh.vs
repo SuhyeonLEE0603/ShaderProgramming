@@ -8,7 +8,7 @@ uniform float u_Time;
 
 const float c_Pi = 3.141592;
 
-void main()
+void Flag()
 {
 	vec4 newPosition = vec4(a_Position, 1);
 
@@ -22,4 +22,22 @@ void main()
 
 	v_Color = vec4((sinValue + 1) / 2);
 	gl_Position = newPosition;
+}
+
+void SphereMapping()
+{
+	float r = 1;
+	float scale = 5;
+	float newX = r * sin(a_Position.y * scale) * cos(a_Position.x * scale);
+	float newY = r * sin(a_Position.y * scale) * sin(a_Position.x * scale);
+	float newZ = r * cos(a_Position.y * scale);
+
+	gl_Position = vec4(newX, newY, newZ, 1);
+	v_Color = vec4(1);
+}
+
+void main()
+{
+	// Flag
+	SphereMapping();
 }

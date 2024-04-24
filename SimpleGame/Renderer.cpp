@@ -638,7 +638,7 @@ void Renderer::DrawGridMesh()
 	glUniform1f(ul_Time, m_GridMeshTime);
 	m_GridMeshTime += 0.016;
 
-	glDrawArrays(GL_TRIANGLES, 0, m_GridMeshVertexCount);
+	glDrawArrays(GL_LINE_STRIP, 0, m_GridMeshVertexCount);
 
 	glDisableVertexAttribArray(attribPosition);
 }
