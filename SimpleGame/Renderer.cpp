@@ -30,7 +30,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	CreateParticleCloud(10000);
 
 	// Create Grid Mesh
-	CreateGridMesh();
+	CreateGridMesh(32, 32);
 
 	if (m_SolidRectShader > 0 && m_VBORect > 0)
 	{
@@ -396,15 +396,15 @@ void Renderer::CreateParticleCloud(int numParticles)
 	delete[] vertices;
 }
 
-void Renderer::CreateGridMesh()
+void Renderer::CreateGridMesh(int x, int y)
 {
 	float basePosX = -0.5f;
 	float basePosY = -0.5f;
 	float targetPosX = 0.5f;
 	float targetPosY = 0.5f;
 
-	int pointCountX = 8;
-	int pointCountY = 8;
+	int pointCountX = x;
+	int pointCountY = y;
 
 	float width = targetPosX - basePosX;
 	float height = targetPosY - basePosY;

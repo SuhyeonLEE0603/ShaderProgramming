@@ -29,7 +29,7 @@ private:
 	void CreateVertexBufferObjects();
 	void GetGLPosition(float x, float y, float *newX, float *newY);
 	void CreateParticleCloud(int numParticles);
-	void CreateGridMesh();
+	void CreateGridMesh(int x, int y);
 
 
 	bool m_Initialized = false;
