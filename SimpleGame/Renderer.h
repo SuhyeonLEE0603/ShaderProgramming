@@ -30,6 +30,7 @@ private:
 	void GetGLPosition(float x, float y, float *newX, float *newY);
 	void CreateParticleCloud(int numParticles);
 	void CreateGridMesh(int x, int y);
+	GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
 
 
 	bool m_Initialized = false;
