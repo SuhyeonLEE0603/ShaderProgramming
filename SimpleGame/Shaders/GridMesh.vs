@@ -32,7 +32,12 @@ void SphereMapping()
 	float newY = r * sin(a_Position.y * scale) * sin(a_Position.x * scale);
 	float newZ = r * cos(a_Position.y * scale);
 
-	gl_Position = vec4(newX, newY, newZ, 1);
+	vec4 newPosition = vec4(newX, newY, newZ, 1);
+
+	float newTime = fract(u_Time / 5);
+
+	vec4 interpoResult = vec4(a_Position, 1) * (1 - newTime) + newPosition * newTime;
+	gl_Position = interpoResult;
 	v_Color = vec4(1);
 }
 
