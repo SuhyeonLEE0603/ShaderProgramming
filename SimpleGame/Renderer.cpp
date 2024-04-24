@@ -634,6 +634,10 @@ void Renderer::DrawGridMesh()
 	glBindBuffer(GL_ARRAY_BUFFER, m_GridMeshVBO);
 	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 
+	GLuint ul_Time = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(ul_Time, m_GridMeshTime);
+	m_GridMeshTime += 0.016;
+
 	glDrawArrays(GL_LINE_STRIP, 0, m_GridMeshVertexCount);
 
 	glDisableVertexAttribArray(attribPosition);
