@@ -23,6 +23,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_ParticleCloudShader = CompileShaders("./Shaders/ParticleCloud.vs", "./Shaders/ParticleCloud.fs");
 	m_FSSandboxShader = CompileShaders("./Shaders/FSSandBox.vs", "./Shaders/FSSandBox.fs");
 	m_GridMeshShader = CompileShaders("./Shaders/GridMesh.vs", "./Shaders/GridMesh.fs");
+	m_TextureSandboxShader = CompileShaders("./Shaders/TextureSandbox.vs", "./Shaders/TextureSandbox.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -32,6 +33,9 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
 	// Create Grid Mesh
 	CreateGridMesh(32, 32);
+
+	// Create TExtures
+	m_RGBTexture = CreatePngTexture("./rgb.png", GL_NEAREST);
 
 	if (m_SolidRectShader > 0 && m_VBORect > 0)
 	{
@@ -86,7 +90,6 @@ void Renderer::CreateVertexBufferObjects()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(paticleVerts), paticleVerts, GL_STATIC_DRAW);
 
 	size = 0.5;
-
 	float FSSandboxVerts[] = {
 		-size, -size, 0,
 		size, size, 0,
@@ -99,6 +102,20 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_FSSandboxVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_FSSandboxVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(FSSandboxVerts), FSSandboxVerts, GL_STATIC_DRAW);
+	
+	size = 0.5;
+	float TextureSandboxVerts[] = {
+		-size, -size, 0, 0, 1,
+		size, size, 0, 1, 0,
+		-size, size, 0, 0, 0,
+		-size, -size, 0, 0, 1,
+		size, -size, 0, 1, 1,
+		size, size, 0, 1, 0
+	};
+
+	glGenBuffers(1, &m_TextureSandboxVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureSandboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TextureSandboxVerts), TextureSandboxVerts, GL_STATIC_DRAW);
 
 }
 
@@ -664,6 +681,34 @@ void Renderer::DrawGridMesh()
 	m_GridMeshTime += 0.016;
 
 	glDrawArrays(GL_LINE_STRIP, 0, m_GridMeshVertexCount);
+
+	glDisableVertexAttribArray(attribPosition);
+}
+
+void Renderer::DrawTextureSandbox()
+{
+	//Program select
+	GLuint shader = m_TextureSandboxShader;
+	glUseProgram(shader);
+	float stride = sizeof(float) * 5;
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureSandboxVBO);
+	glVertexAttribPointer(attribPosition, 3,
+		GL_FLOAT, GL_FALSE, stride, 0);
+	
+	int attribTexture = glGetAttribLocation(shader, "a_Texture");
+	glEnableVertexAttribArray(attribTexture);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureSandboxVBO);
+	glVertexAttribPointer(attribTexture, 2,
+		GL_FLOAT, GL_FALSE, stride, (GLvoid*)(sizeof(float) * 3));
+
+	GLuint ul_Time = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(ul_Time, m_TextureSandboxTime);
+	m_TextureSandboxTime += 0.016;
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glDisableVertexAttribArray(attribPosition);
 }
