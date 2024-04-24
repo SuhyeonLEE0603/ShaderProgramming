@@ -4,6 +4,8 @@ in vec3 a_Position;
 in vec2 a_Texture;
 out vec2 v_TexPos;
 
+uniform float u_Time;
+
 void main()
 {
 	vec4 newPosition = vec4(a_Position, 1);

@@ -34,7 +34,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	// Create Grid Mesh
 	CreateGridMesh(32, 32);
 
-	// Create TExtures
+	// Create Textures
 	m_RGBTexture = CreatePngTexture("./rgb.png", GL_NEAREST);
 
 	if (m_SolidRectShader > 0 && m_VBORect > 0)
@@ -706,6 +706,11 @@ void Renderer::DrawTextureSandbox()
 	GLuint ul_Time = glGetUniformLocation(shader, "u_Time");
 	glUniform1f(ul_Time, m_TextureSandboxTime);
 	m_TextureSandboxTime += 0.016;
+
+	GLuint ul_Texture = glGetUniformLocation(shader, "u_Texture");
+	glUniform1i(ul_Texture, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_RGBTexture);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
