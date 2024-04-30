@@ -57,7 +57,18 @@ void P5()
 	FragColor = texture(u_Texture, newTexPos);
 }
 
+void P6()
+{
+	vec2 newTexPos;
+	float tx = v_TexPos.x;	// 0 ~ 1, 0 ~ 1, 0 ~ 1
+	float ty = v_TexPos.y;
+	newTexPos = vec2(tx, ty);
+
+	FragColor = texture(u_Texture, newTexPos);
+}
+
 // 시험 BGR 세로로 렌더
+// 시험 RGB 세로로 2개 가로로 2개, 오른쪽은 0.5부터 시작
 
 void main()
 {
@@ -65,5 +76,6 @@ void main()
 	// P2();
 	// P3();
 	// P4();
-	P5();
+	// P5();
+	P6();
 }
