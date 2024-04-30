@@ -46,9 +46,12 @@ void P4()
 
 void P5()
 {
+	float padding = 0.5;
+	float countX = 3;
+	float countY = 3;
 	vec2 newTexPos;
-	float tx =  fract(0.5 * (floor((v_TexPos.y * 2) + 1))) + v_TexPos.x * 2;	// 0 ~ 1, 0 ~ 1, 0 ~ 1
-	float ty = fract(v_TexPos.y * 2);
+	float tx =  fract(padding * floor(v_TexPos.y * countY)) + v_TexPos.x * countX;	// 0 ~ 1, 0 ~ 1, 0 ~ 1
+	float ty = fract(v_TexPos.y * countY);
 	newTexPos = vec2(tx, ty);
 
 	FragColor = texture(u_Texture, newTexPos);
