@@ -719,16 +719,25 @@ void Renderer::DrawTextureSandbox()
 	m_TextureSandboxTime += 0.016;
 
 	GLuint ul_Texture = glGetUniformLocation(shader, "u_Texture");
-	glUniform1i(ul_Texture, (int)(m_TextureSandboxTime) % 10);
+	glUniform1i(ul_Texture, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_RGBTexture);
 
+	GLuint ul_Texture1 = glGetUniformLocation(shader, "u_NumberTexture");
+	int textures[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	glUniform1iv(ul_Texture1, 10, textures);
+
+	GLuint ul_Texture2 = glGetUniformLocation(shader, "u_NumbersTexture");
+	glUniform1i(ul_Texture2, 11);
+
 	for (int i = 0; i < 10; ++i)
 	{
-		glActiveTexture(GL_TEXTURE0 + i);
+		glActiveTexture(GL_TEXTURE1 + i);
 		glBindTexture(GL_TEXTURE_2D, m_NumberTexture[i]);
 	}
 
+	glActiveTexture(GL_TEXTURE11);
+	glBindTexture(GL_TEXTURE_2D, m_NumbersTexture);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
