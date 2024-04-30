@@ -44,10 +44,23 @@ void P4()
 	FragColor = texture(u_Texture, newTexPos);
 }
 
+void P5()
+{
+	vec2 newTexPos;
+	float tx =  fract(0.5 * (floor((v_TexPos.y * 2) + 1))) + v_TexPos.x * 2;	// 0 ~ 1, 0 ~ 1, 0 ~ 1
+	float ty = fract(v_TexPos.y * 2);
+	newTexPos = vec2(tx, ty);
+
+	FragColor = texture(u_Texture, newTexPos);
+}
+
+// 시험 BGR 세로로 렌더
+
 void main()
 {
 	// P1();
 	// P2();
 	// P3();
-	P4();
+	// P4();
+	P5();
 }
