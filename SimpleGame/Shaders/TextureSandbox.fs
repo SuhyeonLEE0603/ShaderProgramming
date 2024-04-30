@@ -24,9 +24,18 @@ void P2()
 	FragColor = texture(u_Texture, newTexPos);
 }
 
+void P3()
+{
+	vec2 newTexPos;
+	float tx = fract(v_TexPos.x * 3);	// 0 ~ 1, 0 ~ 1, 0 ~ 1
+	float ty = v_TexPos.y / 3 + (2 - floor(v_TexPos.x * 3)) / 3;
+	newTexPos = vec2(tx, ty);
 
+	FragColor = texture(u_Texture, newTexPos);
+}
 void main()
 {
 	// P1();
-	P2();
+	// P2();
+	P3();
 }
