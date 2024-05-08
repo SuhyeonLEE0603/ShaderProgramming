@@ -23,6 +23,7 @@ public:
 	void DrawGridMesh();
 	void DrawTextureSandbox();
 
+	void DrawTotal();
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
 
