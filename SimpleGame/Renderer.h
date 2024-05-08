@@ -37,7 +37,7 @@ private:
 	void CreateParticleCloud(int numParticles);
 	void CreateGridMesh(int x, int y);
 	GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
-
+	void CreateFBO();
 
 	bool m_Initialized = false;
 	
@@ -72,5 +72,9 @@ private:
 
 	GLuint m_NumberTexture[10];
 	GLuint m_NumbersTexture;
+
+	GLuint m_A_FBO;
+	GLuint m_A_FBOTexture;
+
 };
 
