@@ -22,6 +22,7 @@ public:
 	void DrawFSSandbox();
 	void DrawGridMesh();
 	void DrawTextureSandbox();
+	void DrawTexture(float x, float y, float sizeX, float sizeY, GLuint texID);
 
 	void DrawTotal();
 private:
@@ -73,6 +74,9 @@ private:
 
 	GLuint m_NumberTexture[10];
 	GLuint m_NumbersTexture;
+
+	GLuint m_TextureShader = 0;
+	GLuint m_TextureVBO = 0;
 
 	GLuint m_A_FBO;
 	GLuint m_A_FBOTexture;

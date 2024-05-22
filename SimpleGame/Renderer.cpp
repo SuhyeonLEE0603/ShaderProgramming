@@ -24,6 +24,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_FSSandboxShader = CompileShaders("./Shaders/FSSandBox.vs", "./Shaders/FSSandBox.fs");
 	m_GridMeshShader = CompileShaders("./Shaders/GridMesh.vs", "./Shaders/GridMesh.fs");
 	m_TextureSandboxShader = CompileShaders("./Shaders/TextureSandbox.vs", "./Shaders/TextureSandbox.fs");
+	m_TextureShader = CompileShaders("./Shaders/Texture.vs", "./Shaders/Texture.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -130,6 +131,21 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_TextureSandboxVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_TextureSandboxVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(TextureSandboxVerts), TextureSandboxVerts, GL_STATIC_DRAW);
+
+	size = 0.05;
+
+	float TextureVerts[] = {
+		0, 0, 0,
+		1, 1, 0,
+		0, 1, 0,
+		0, 0, 0,
+		1, 0, 0,
+		1, 1, 0
+	};
+
+	glGenBuffers(1, &m_TextureVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TextureVerts), TextureVerts, GL_STATIC_DRAW);
 
 }
 
@@ -778,6 +794,37 @@ void Renderer::DrawTextureSandbox()
 	glDisableVertexAttribArray(attribPosition);
 }
 
+void Renderer::DrawTexture(float x, float y, float sizeX, float sizeY, GLuint texID)
+{
+	//Program select
+	GLuint shader = m_TextureShader;
+	glUseProgram(shader);
+	float stride = sizeof(float) * 3;
+
+	GLuint ul_ScreenResol = glGetUniformLocation(shader, "u_ScreenResol");
+	glUniform2f(ul_ScreenResol, (float)m_WindowSizeX, (float)m_WindowSizeY);
+
+	GLuint ul_Position = glGetUniformLocation(shader, "u_Position");
+	glUniform2f(ul_Position, x, y);
+	
+	GLuint ul_Size = glGetUniformLocation(shader, "u_Size");
+	glUniform2f(ul_Size, sizeX, sizeY);
+
+
+	GLuint ul_Texture = glGetUniformLocation(shader, "u_Texture");
+	glUniform1i(ul_Texture, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texID);
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureVBO);
+	glVertexAttribPointer(attribPosition, 3,
+		GL_FLOAT, GL_FALSE, stride, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 void Renderer::DrawTotal()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -788,9 +835,13 @@ void Renderer::DrawTotal()
 	//DrawParticle();
 	//DrawParticleCloud();
 	glBindFramebuffer(GL_FRAMEBUFFER, m_A_FBO);
-	glViewport(0, 0, 512, 512);
+	glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
 	DrawFSSandbox();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
+
+	DrawTexture(0, 0, m_WindowSizeX, m_WindowSizeY, 0);
 	//DrawGridMesh();
 	//DrawTextureSandbox();
 

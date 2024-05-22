@@ -17,6 +17,9 @@ but WITHOUT ANY WARRANTY.
 
 Renderer *g_Renderer = NULL;
 
+int g_ScreenSizeX = 500;
+int g_ScreenSizeY = 500;
+
 void RenderScene(void)
 {
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,7 +67,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(g_ScreenSizeX, g_ScreenSizeY);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -78,7 +81,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
+	g_Renderer = new Renderer(g_ScreenSizeX, g_ScreenSizeY);
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";
